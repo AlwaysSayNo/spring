@@ -1,61 +1,27 @@
 package ua.nazar.spring;
 
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MusicPlayer {
-    private List<Music> songs;
-    private String name;
-    private int volume;
+    private Music music1, music2;
+    
+    enum MusicGenre{ROCK, CLASSICAL}
 
-
-    public MusicPlayer(List<Music> songs){
-        this.songs = songs;
+    @Autowired
+    public MusicPlayer(@Qualifier("rockMusic") Music music1, 
+                       @Qualifier("classicalMusic") Music music2){
+        this.music1 = music1;
+        this.music2 = music2;
     }
 
-    public MusicPlayer(){
-    }
+    public void playMusic(MusicGenre genre){
+        String music = null;
+        if(genre == MusicGenre.ROCK) music = this.music1.getSong();
+        else if(genre == MusicGenre.CLASSICAL) music = this.music2.getSong();
 
-
-/*    public Music getMusic() {
-        return music;
-    }
-
-    public void setMusic(Music music) {
-        this.music = music;
-    }*/
-
-    public List<Music> getSongs() {
-        return songs;
-    }
-
-    public void setSongs(List<Music> songs) {
-        this.songs = songs;
-    }
-
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getVolume() {
-        return volume;
-    }
-
-    public void setVolume(int volume) {
-        this.volume = volume;
-    }
-
-    public void playMusic(){
-        System.out.println("Playlist consists from " + songs.size() + " songs.");
-        System.out.println("[");
-        for(Music m : songs){
-            System.out.println(m.getSong());
-        }
-        System.out.println("]");
+        System.out.println("Playing: " + music);
     }
 }

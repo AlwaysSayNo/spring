@@ -1,23 +1,21 @@
 package ua.nazar.spring;
 
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+
+@Component
 public class ClassicalMusic implements Music {
+    ArrayList<String> songs = new ArrayList<>(Arrays.asList("CM_S1", "CM_S2", "CM_S3"));
 
     private ClassicalMusic(){}
 
-    public static ClassicalMusic getClassicalMusic(){
-        return new ClassicalMusic();
-    }
-
     @Override
-    public String getSong() {
-        return "Hungarian Rhapsody";
-    }
-
-    private void doMyInit(){
-        System.out.println(this.getClass().getName() + ": init method");
-    }
-
-    private void doMyDestroy(){
-        System.out.println(this.getClass().getName() + ": destroy method");
+    public String getSong(){
+        Random random = new Random();
+        int i = random.nextInt(3);
+        return songs.get(i);
     }
 }
